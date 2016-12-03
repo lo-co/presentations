@@ -1,0 +1,164 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/serif.css" id ="theme">
+  </head>
+  <body>
+    <div class = "reveal">
+      <div class="slides"><section>
+          <section><h1>You're Doing it Wrong
+              <h1>
+                <h2>A Case Study in Large Application Development</h2>
+              </h1>
+          </section>
+          <section data-transition="convex">or,
+            <h2>How to Aggravate your Customers and Guarantee Future Rework</h2>
+            <aside class="notes">While some of this is tounge in cheek, this is a real look at developing an application with an eye to ease of maintenance and scaling.</aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>About the project:</h2>
+            <ul>
+              <li>For a customer a long long ways away...</li>
+              <li>Large instrument consisting of a lot of instruments running asynchronously.</li>
+            </ul>
+          </section>
+          <section>
+            <img src="img/system_overview.png" alt="">
+          </section>
+          <section>
+            <h2>This is going to be hard</h2>
+            <h2 class="fragment" data-fragment-index="2">Question: How could I make this even more difficult??</h2>
+          </section>
+          <section>
+            <h2>Make it...</h2>
+            <img class = "fragment" src="img/flexible.png" alt="">
+          </section>
+        </section>
+        <section>
+          <section> 
+            <h2>Step 1: The Actor Framework</h2>
+          </section>
+          <section>
+            <h2>The AF is:</h2>
+            <ul>
+              <li class="fragment">Robust</li>
+              <li class="fragment">Adaptive</li>
+            </ul>
+            </p>
+            <p>
+            <span class="fragment">but...</span>
+            </p>
+            <p>
+            <em class="fragment">IT IS COMPLICATED!!!</em>
+            </p>
+            <aside class="notes">
+              <ul>
+                <li>Robust - once you have it running, it is really reliable </li>
+                <li>Scalable - easy to add components</li>
+              </ul>
+              <p>Problems:</p>
+              <ul>
+                <li>There is a ton of boiler plate</li>
+                <li>The asynchronous nature makes this difficult to debug</li>
+                <li>The reentrant nature presents a particular challenge on RT systems</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>
+              Step 2: Mixin web Services
+            </h2>
+            <aside class="notes">
+              The idea here is to be able to communicate with clients on different platforms.
+              No need for the LabVIEW RTE here - the actual code resides on the server (instrument)
+              itself
+            </aside>
+          </section>
+          <section>
+            <h3>But why?</h3>
+            <ul>
+              <li class="fragment">Platform agnostic</li>
+              <li class="fragment">No LabVIEW RTE</li>
+            </ul>
+            <aside class="notes">
+              A web service allows us to be even more independent in terms of our view than LV.  We can run
+              on any machine with a browser - windows, linux, mac, phones, etc.  All code is hosted on the 
+              server itself so all the client needs to do is point to the server.
+            </aside>
+          </section>
+          <section>
+          <h2>Passing Data</h2>
+          <ul>
+            <li>Serialization - not there. Nope.  <a href="https://tinyurl.com/hf5f4fw">AQ Character Lineator</a></li>
+          </ul>
+          </section>
+        </section>
+        <section data-markdown data-transition = "zoom">
+          <script type="text/template">
+## Here is a title
+
+            * HEre is a bullet 
+            * Here is another bullet
+            * Here is a nested bullet
+          </script>
+          <aside class="notes">Hey check me out i am a note</aside>
+        </section>
+
+        <section data-transition="fast">Slide 2i
+          <aside class="notes">Hey check me out i am a note</aside>
+
+        </section>
+
+        <section><h2>Here is some code!</h2>
+          <pre><code data-trim data-noescape>
+    (def lazy-fib
+      (concat
+       [0 1]
+       <mark>((fn rfib [a b]</mark>
+          (lazy-cons (+a b) (rfib b (+ a b)))) 0 1)))
+          </code></pre>
+        </section>
+        <section>
+          <h2>aren't cats funny??</h2>
+          <img src="http://tinyurl.com/2oftk4" alt="just an image"></section>
+        <section data-background-image="http://tinyurl.com/yfegj5m"><h2>Look! An image background!!</h2></section>
+
+      </div>
+      <div style="display:block;position:absolute;bottom:16px;left:50%;margin-left:-450px;z-index:20;">
+        <img src="img/logo2.png" height=34px alt="logo"> Matt Richardson, MSR Consulting LLC, December 2016 
+      </div>
+
+    </div>
+    <style>
+.share-reveal a {display: inline-block; height:34px;line-height:32px;padding:0 10px; color:#fff;font-family:Helvetica, san-serif; text-decoration: none; font-weight:bold;font-size:12px;vertical-align: top; text-transform:uppercase; box-sizing:border-box;}
+    </style>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script >
+Reveal.initialize({
+  progress:true,
+  width:960,
+  height:700,
+  margin:0.1,
+  minScale:0.2,
+  maxScale:1,
+ dependencies:[
+
+
+// {src: '../reveal/lib/js/classList.js', condition: function(){return !document.body.classList;}},
+ {src: 'plugin/markdown/marked.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
+{src: 'plugin/markdown/markdown.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
+  {src: 'plugin/math/math.js', async: true},
+ {src: 'plugin/notes/notes.js', async:true}
+
+
+]
+  });
+    </script>
+  </body>  
+</html>
