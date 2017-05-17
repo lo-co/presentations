@@ -1305,6 +1305,13 @@ body {
     width: 90%;
     left: 5%; } }
 
+p.file{
+    text-align:left;
+    line-height: 1;
+    margin-top:0em;
+    margin-bottom:0em;
+}
+
 /*********************************************
  * ZOOM PLUGIN
  *********************************************/
@@ -1323,3 +1330,5 @@ body {
 
 .zoomed .reveal .roll span:after {
   visibility: hidden; }
+
+
