@@ -5,24 +5,24 @@
   <link rel="stylesheet" href="css/theme/serif.css" id ="theme">
 </head>
 <body>
-  <div class = "reveal">
-    <div class="slides"><section>
-      <section>
-        <img src="img/programmer_states.jpeg" height="700" alt="states...">
-        <aside class="notes">
-          <p>Tim said we don't want to give a half baked talk - I decided to give this presentation anyway.</p>
-        </aside>
-      </section>
-      <section><h1>You're Doing it Wrong
-        <h1>
-          <h2>A Case Study in Large Application Development</h2>
-        </h1>
-      </section>
-      <section data-transition="convex">or,
-        <h2>How to Aggravate your Customers and Guarantee Future Rework</h2>
-        <aside class="notes"><p>While some of this is tounge in cheek, this is a real look at developing an application with an eye to ease of maintenance and scaling.  I have talked about this in previous meetings, but this is an overall big picture - hopefully this will be the last...</p></aside>
-      </section>
+<div class = "reveal">
+  <div class="slides"><section>
+    <section>
+      <img src="img/programmer_states.jpeg" height="700" alt="states...">
+      <aside class="notes">
+        <p>Tim said we don't want to give a half baked talk - I decided to give this presentation anyway.</p>
+      </aside>
     </section>
+    <section><h1>You're Doing it Wrong
+      <h1>
+        <h2>A Case Study in Large Application Development</h2>
+      </h1>
+    </section>
+    <section data-transition="convex">or,
+      <h2>How to Aggravate your Customers and Guarantee Future Rework</h2>
+      <aside class="notes"><p>While some of this is tounge in cheek, this is a real look at developing an application with an eye to ease of maintenance and scaling.  I have talked about this in previous meetings, but this is an overall big picture - hopefully this will be the last...</p></aside>
+    </section>
+  </section>
     <section>
       <section>
         <h2>About the project:</h2>
@@ -125,8 +125,8 @@
       <section>
         <div style="width:50%;float:left">
           <h2>That's a helluva lot of boiler plate!</h2></div>
-          <div style="width:50%;float:right">
-            <img src="img/controller_msgs.png" style="height:700; border-width:0px;" class="fragment"  alt="">
+        <div style="width:50%;float:right">
+          <img src="img/controller_msgs.png" style="height:700; border-width:0px;" class="fragment"  alt="">
           </aside>
         </div>
         <aside class="notes">
@@ -138,13 +138,13 @@
             <li>And, how do you push data around and maintain the current state of the system as a whole?</li>
           </ul>
           <p>Not only do you have messages that flow up and down, but you also have to get your messages to the controller proper. Imagine,
-            <ol>
-              <li>Client sends message to server to change frequency of laser</li>
-              <li>Web service receives message and passes it on to controller in main app</li>
-              <li>Controller passes it on to appropriate instrument</li>
-              <li>Instrument then passes it on to portion running external to the main core that maintains state</li>
-            </ol>
-            That is potentially three seperate classes touching four separate entities!
+          <ol>
+            <li>Client sends message to server to change frequency of laser</li>
+            <li>Web service receives message and passes it on to controller in main app</li>
+            <li>Controller passes it on to appropriate instrument</li>
+            <li>Instrument then passes it on to portion running external to the main core that maintains state</li>
+          </ol>
+          That is potentially three seperate classes touching four separate entities!
           </p>
         </aside>
       </section>
@@ -211,132 +211,132 @@
           <p>A web service allows us to be even more independent in terms of our view than LV.  We can run
             on any machine with a browser - windows, linux, mac, phones, etc.  All code is hosted on the
             server itself so all the client needs to do is point to the server.</p>
-            <p>This last sentence needs emphasizing - we have no code to deploy to the client.  This is pretty awesome when you think about it.  This means that any tools required to build and the run the code are totally transparent to the user.  This is important in the case of this application as the tool chain is pretty big for developing the UI.</p>
-            <p>Going to say something offensive in the next slide...</p>
-          </aside>
-        </section>
-        <section>
-          <h2>Windows 10 is Terrible!</h2>
-          <img class="fragment" src="img/windows_10_fpga.png" class="cld" alt="">
-          <aside class="notes">
-            <ul>
-              <li>How many of you are using Windows?  Windows 10?</li>
-              <li>Do you like it?</li>
-              <li>How many would jettison it for another OS if they could?</li>
-            </ul>
-            <p>Personally, were it not for games or LV, I would not use it.</p>
-            <p>BAM! Since NI is not using the latest Vivado kit, the FPGA module is officially unsupported..</p>
-          </aside>
-        </section>
-        <section>
-          <h2>Great! Let's use web services - what could go wrong??</h2>
-        </section>
-        <section>
-          <h2>Passing Data</h2>
-          <ul>
-            <li>It will be text</li>
-            <li>It will be raw (if you are working with an RT system)</li>
-            <li>And it might look something like <a href="https://github.com/msr-consulting/exscalabar/blob/master/data/data.json">this 700 kB mess</a>.</li>
-          </ul>
-          <br>
-          <h3 class="fragment">So what's up - why no gzip??</h3>
-          <aside class="notes">
-            <p>In LV, you don't really have to think too hard about passing data. Natively, it will handle everything for you.  Hands up:
-              <ul>
-                <li>How do you typically pass data in an application?  What about between asynchronous processes?</li>
-                <li>How <em>would</em> you pass data to an external application?  One not running LV?</li>
-              </ul>
-              In a web service, you <em>will</em> be passing data as raw text.  You will <em>not</em> be flattening it.  That 700 kB packet is passed <em>every second</em> to the client to keep the data up to date (well, not entirely true - anything that doesn't require a history will be turned off depending on the view).  In addition, we have other information that is being pushed back and forth - CVT.  This is updated as need.  Together, these create issues for bandwidth limited situations.
-            </p>
-            <p>gzip is available on the Windows side via .NET libraries.  I have seen one stab at implementing gzip and my experience has been poor with this.</p>
-          </aside>
-        </section>
-        <section>
-          <h2>Serialization - what's that?</h2>
-          <blockquote cite="https://en.wikipedia.org/wiki/Serialization">
-            "..serialization is the process of translating data structures or object state into a format that can be stored (for example, in a file or memory buffer, or transmitted across a network connection link) and reconstructed later in the same or another computer environment."
-          </blockquote>
-          <p class="fragment">Nothing to see here. Nope.  </p>
-          <p class="fragment">And certainly not the <a href="https://tinyurl.com/hf5f4fw">AQ Character Lineator</a>.</p>
-          <aside class="notes">
-            <p>It's 2016, LV objects have been around since 2008 (at least) and we currently have <em>no</em> serializable object.  Le big sigh.  The current stab at this is the AQ charcter lineator - and I am not sure why this was even developed.  Performance is terrible because it is trying to do to many things so the class structure is very deep.</p>
-          </aside>
-        </section>
-        <section>
-          <h2>One last thing...</h2>
-          <h3>deployment of web services is <em>terrible</em>.</h3>
-          <h3>Really terrible.</h3>
-          <aside class="notes">
-            <p>Aside from the fact that web services can throw all kinds of weird deployment errors, in RT when deploying, you will get <em>every</em> VI in the web service up on the screen.  This project has over 50 web service VIs so this makes deployment 1) slow and 2) obnoxious.  This is not what happens in the Windows environment.  Spoke to AE - after long discussion, they said this is what is supposed to happen?</p>
-            <p>Maybe show UI example?</p>
-          </aside>
-        </section>
-      </section>
-
-      <section>
-        <h2>Getting gud like Ronnie</h2>
-        <div style="width:50%;float:left">
-          <img src="img/git_gud_man.jpg" alt="">
-          <p>So you think you want to do this??</p>
-        </div>
-        <div style="width:50%;float:left">
-          <ul>
-            <li class="fragment">Check out Casey Lamers case study using the AF on the cRIO</li>
-            <li class="fragment">Have a plan and make sure you are following it...</li>
-            <li class="fragment">Build build build</li>
-            <li class="fragment">Have you considered throwing web sockets into the mix?</li>
-          </ul>
-        </div>
+          <p>This last sentence needs emphasizing - we have no code to deploy to the client.  This is pretty awesome when you think about it.  This means that any tools required to build and the run the code are totally transparent to the user.  This is important in the case of this application as the tool chain is pretty big for developing the UI.</p>
+          <p>Going to say something offensive in the next slide...</p>
+        </aside>
       </section>
       <section>
-        <div style="width:50%;float:left">
-          <h3>Thanks for listening!</h3>
-          <br>
-          <br>
-          <p align="left">Matt Richardson</p>
-          <p align="left">cirrus@tuta.io</p>
-          <p align="left">https://github.com/lo-co</p>
-        </div>
-        <div style="width:50%;float:right">
-          <img src="img/climb.jpg" style="border-width:0px" alt="">
-          <img src="img/fall.jpg" style="border-width:0px" alt="">
-        </div>
+        <h2>Windows 10 is Terrible!</h2>
+        <img class="fragment" src="img/windows_10_fpga.png" class="cld" alt="">
+        <aside class="notes">
+          <ul>
+            <li>How many of you are using Windows?  Windows 10?</li>
+            <li>Do you like it?</li>
+            <li>How many would jettison it for another OS if they could?</li>
+          </ul>
+          <p>Personally, were it not for games or LV, I would not use it.</p>
+          <p>BAM! Since NI is not using the latest Vivado kit, the FPGA module is officially unsupported..</p>
+        </aside>
       </section>
-    </div>
+      <section>
+        <h2>Great! Let's use web services - what could go wrong??</h2>
+      </section>
+      <section>
+        <h2>Passing Data</h2>
+        <ul>
+          <li>It will be text</li>
+          <li>It will be raw (if you are working with an RT system)</li>
+          <li>And it might look something like <a href="https://github.com/msr-consulting/exscalabar/blob/master/data/data.json">this 700 kB mess</a>.</li>
+        </ul>
+        <br>
+        <h3 class="fragment">So what's up - why no gzip??</h3>
+        <aside class="notes">
+          <p>In LV, you don't really have to think too hard about passing data. Natively, it will handle everything for you.  Hands up:
+          <ul>
+            <li>How do you typically pass data in an application?  What about between asynchronous processes?</li>
+            <li>How <em>would</em> you pass data to an external application?  One not running LV?</li>
+          </ul>
+          In a web service, you <em>will</em> be passing data as raw text.  You will <em>not</em> be flattening it.  That 700 kB packet is passed <em>every second</em> to the client to keep the data up to date (well, not entirely true - anything that doesn't require a history will be turned off depending on the view).  In addition, we have other information that is being pushed back and forth - CVT.  This is updated as need.  Together, these create issues for bandwidth limited situations.
+          </p>
+          <p>gzip is available on the Windows side via .NET libraries.  I have seen one stab at implementing gzip and my experience has been poor with this.</p>
+        </aside>
+      </section>
+      <section>
+        <h2>Serialization - what's that?</h2>
+        <blockquote cite="https://en.wikipedia.org/wiki/Serialization">
+          "..serialization is the process of translating data structures or object state into a format that can be stored (for example, in a file or memory buffer, or transmitted across a network connection link) and reconstructed later in the same or another computer environment."
+        </blockquote>
+        <p class="fragment">Nothing to see here. Nope.  </p>
+        <p class="fragment">And certainly not the <a href="https://tinyurl.com/hf5f4fw">AQ Character Lineator</a>.</p>
+        <aside class="notes">
+          <p>It's 2016, LV objects have been around since 2008 (at least) and we currently have <em>no</em> serializable object.  Le big sigh.  The current stab at this is the AQ charcter lineator - and I am not sure why this was even developed.  Performance is terrible because it is trying to do to many things so the class structure is very deep.</p>
+        </aside>
+      </section>
+      <section>
+        <h2>One last thing...</h2>
+        <h3>deployment of web services is <em>terrible</em>.</h3>
+        <h3>Really terrible.</h3>
+        <aside class="notes">
+          <p>Aside from the fact that web services can throw all kinds of weird deployment errors, in RT when deploying, you will get <em>every</em> VI in the web service up on the screen.  This project has over 50 web service VIs so this makes deployment 1) slow and 2) obnoxious.  This is not what happens in the Windows environment.  Spoke to AE - after long discussion, they said this is what is supposed to happen?</p>
+          <p>Maybe show UI example?</p>
+        </aside>
+      </section>
+    </section>
+
+    <section>
+      <h2>Getting gud like Ronnie</h2>
+      <div style="width:50%;float:left">
+        <img src="img/git_gud_man.jpg" alt="">
+        <p>So you think you want to do this??</p>
+      </div>
+      <div style="width:50%;float:left">
+        <ul>
+          <li class="fragment">Check out Casey Lamers case study using the AF on the cRIO</li>
+          <li class="fragment">Have a plan and make sure you are following it...</li>
+          <li class="fragment">Build build build</li>
+          <li class="fragment">Have you considered throwing web sockets into the mix?</li>
+        </ul>
+      </div>
+    </section>
+    <section>
+      <div style="width:50%;float:left">
+        <h3>Thanks for listening!</h3>
+        <br>
+        <br>
+        <p align="left">Matt Richardson</p>
+        <p align="left">cirrus@tuta.io</p>
+        <p align="left">https://github.com/lo-co</p>
+      </div>
+      <div style="width:50%;float:right">
+        <img src="img/climb.jpg" style="border-width:0px" alt="">
+        <img src="img/fall.jpg" style="border-width:0px" alt="">
+      </div>
+    </section>
   </div>
-  <div class="cld" style="display:block; position:absolute;z-index:20;font-size:20px;bottom:16px;text-align:center;margin-right:-50%;left:50%; transform:translate(-50%,0%);">
-    Matt Richardson, MSR Consulting LLC, December 2016
-  </div>
+</div>
+<div class="cld" style="display:block; position:absolute;z-index:20;font-size:20px;bottom:16px;text-align:center;margin-right:-50%;left:50%; transform:translate(-50%,0%);">
+  Matt Richardson, MSR Consulting LLC, December 2016
+</div>
 
 
-  <style>
+<style>
   .share-reveal a {display: inline-block; height:34px;line-height:32px;padding:0 10px; color:#fff;font-family:Helvetica, san-serif; text-decoration: none; font-weight:bold;font-size:12px;vertical-align: top; text-transform:uppercase; box-sizing:border-box;}
   .cld img{border-width:0px;
     font-size:20px;
   }
-  </style>
-  <script src="lib/js/head.min.js"></script>
-  <script src="js/reveal.js"></script>
-  <script >
-  Reveal.initialize({
-    progress:true,
-    width:960,
-    height:700,
-    margin:0.1,
-    minScale:0.2,
-    maxScale:1,
-    dependencies:[
+</style>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+<script >
+    Reveal.initialize({
+        progress:true,
+        width:960,
+        height:700,
+        margin:0.1,
+        minScale:0.2,
+        maxScale:1,
+        dependencies:[
 
 
-      // {src: '../reveal/lib/js/classList.js', condition: function(){return !document.body.classList;}},
-      {src: 'plugin/markdown/marked.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
-      {src: 'plugin/markdown/markdown.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
-      {src: 'plugin/math/math.js', async: true},
-      {src: 'plugin/notes/notes.js', async:true}
+            // {src: '../reveal/lib/js/classList.js', condition: function(){return !document.body.classList;}},
+            {src: 'plugin/markdown/marked.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
+            {src: 'plugin/markdown/markdown.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
+            {src: 'plugin/math/math.js', async: true},
+            {src: 'plugin/notes/notes.js', async:true}
 
 
-    ]
-  });
-  </script>
+        ]
+    });
+</script>
 </body>
 </html>
