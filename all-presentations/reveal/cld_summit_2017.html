@@ -1,0 +1,418 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/serif.css" id ="theme">
+    <style>
+        table {table-layout: fixed;  }
+        table td:nth-child(1) {border:none; word-wrap:break-word;width: 250px;}
+        table td:nth-child(2){border:none; vertical-align:top}
+    </style>
+</head>
+<body>
+<div class = "reveal">
+    <div class="slides">
+        <section>
+            <section>
+                <h1>this.presentation is undefined</h1>
+                <aside class="notes">
+                    <ul>
+                        <li>How many of you get it??  IF not, you may get it by the end of the presentation</li>
+                        <li>This WILL be interactive - although I love the sound of my own voice, I think you all might appreciate it more if you provide some feedback...</li>
+                    </ul>
+                </aside>
+            </section>
+            <section>
+                <section>
+                    <h1>A brief history of time</h1>
+                    <h2 class = "fragment fade-in">(CLD Summit time, that is...)</h2>
+
+                    <!--<h2 class="fragment fade-in">:an evolution of awesome</h2>-->
+                    <aside class="notes">
+                        <p>To be honest, I can't remember how long this conference has been going on, but I do know that
+                        I have been presenting since the beginning - and I <i>think</i> I have missed just one. So, let's
+                        take a step back here to reflect on where I have been and how it all ties together</p>
+                    </aside>
+                </section>
+            </section>
+            <section>
+                <h2>The year might have been 2013...</h2>
+                <img src="img/babyPhoto.jpg" height=600px alt="">
+                <aside class="notes">
+                    <p>Not sure where this image actually comes from, but I am pretty sure this sums up that talk
+                    pretty well (note - the baby holds a book on java).  It was still pretty early in the days of OOP
+                        (although AF had just come out as beta) - most people were actually not using it.  But I was, and
+                        I suggested that maybe you should consider using this awesome new paradigm in LabVIEW.  </p>
+                    <p>(The next year Nancy told me that I hadn't actually been doing oop. *sadface*)</p>
+                </aside>
+            </section>
+            <section>
+                <h2>Moving on to 2014...</h2>
+                <img src="img/frat.jpg" height=600px alt="">
+                <aside class="notes">
+                    <p>I was ballin'!! I had picked up web services and thrown those in the mix!  Everybody should be using
+                    web services!! Why weren't you??!!  Super easy and you can get a front end developer cheap!!!</p>
+                </aside>
+            </section>
+            <section>
+                <h2>Skip ahead to last year...</h2>
+                <pre><code data-trim data-noescape>
+                    if (sad()){
+                        sad().stop();
+                        beAwesome();
+                    }
+                </code></pre>
+                <aside class="notes">
+                    <p>Talked about developing a large application with web services.  Mostly talking about things to
+                    consider, pain-points.  My pockets were a little lighter but I was a little wiser?</p>
+                </aside>
+            </section>
+            <section>
+                <h2>And now...</h2>
+                <img src="img/yay_ima_stick.jpg" height="600" alt="">
+                <aside class="notes">
+                    <p>Yay!! We got this!  Have started using web services more extensively.  This talk will focus on
+                    the actual mechanics of working with web services in <i>realistic</i> LabVIEW applications - we will
+                    consider architecture on the server side as well as what might be involved in building for the
+                    client side.  Will try to walk through some examples...</p>
+                </aside>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h1>Preliminaries...</h1>
+            </section>
+            <section>
+                <h2>HTML is HTTP, right?</h2>
+                <aside class="notes">
+                    <ul>
+                        <li>LV web services rely on a REST-ful implementation blah,blah,blah
+                            <li>Does anyone know what this is (hint: its an architecture ?  </li>
+                        <li>Can you name another architecture?</li>
+                        <li>Know the difference?</li>
+                        <li>Does any of this even matter? Hint: no - it matters about as much as your knowledge of TCP/IP does</li>
+                        </li>
+                        <li>
+                            The main point that you should keep in mind is that http is a request-response protocol.  It is stateless.
+                        </li>
+                        <li>uses ipv4 to find the path</li>
+                        <li>tcp to open the connection</li>
+                    </ul>
+                </aside>
+            </section>
+            <section>
+                <h2>http - a quick overview</h2>
+                <p style="text-align: left">From <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">Wikipedia</a>:
+                <blockquote style="text-align: left">HTTP is an application layer protocol designed within the framework of the Internet protocol suite.</blockquote>
+                <ul style="text-align: left">
+                    <li>Request-response protocol</li>
+                    <li>Depends on TCP for the the transport layer</li>
+                    <li>Is stateless</li>
+                    <li>Laurel says it is hefty</li>
+                </ul></p>
+                <aside class="notes">I know we said it doesn't matter, but it kind of does.
+                    <ul>
+                        <li>Utilizes IPV4 for routing data - doesn't care about the data or whether it gets to where it is going </li>
+                        <li>as http is the application layer, it will sit on TCP - tcp carries information regarding
+                        packet reception, sequence etc</li>
+                    </ul></aside>
+            </section>
+            <section>
+                <h2>Let's talk</h2>
+                <span class="fragment fade-in"><img src="img/Simple.jpg" height="600" alt=""></span>
+                <aside class="notes">
+                    <p>
+                        Before we start demo - how many are familiar with web services or have used them before?  And
+                        by used I mean how many have used them in real, intense applications?  You can leave now...
+                    </p>
+                    <p>
+                        Before showing the answer, demo what a web service request-response looks like.
+                        This is similar to one of the NI basic examples - show what this looks like if you use a terminal
+                        reponse vs a buffered response.  Gives insight into why you might want to use one or the other.</p>
+                    <p>
+                        Also, point out that this using a terminal response will have implications for <i>how</i>
+                        you interpret the response on the client side.
+                    </p>
+                </aside>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h1>It's a little more complicated...</h1>
+                <aside class="notes">Can we agree that everyone's applications are a little more complicated? How?</aside>
+            </section>
+            <section>
+                <h2>But wait...isn't there supposed to be more?</h2>
+                <div class="fragment fade-in" style="float:left;width:30%"><img src="img/ws.jpeg" alt=""></div>
+                <div class="fragment fade-in" style="float: right;width:70%"><img src="img/Complicated.jpg" alt=""></div>
+                <aside class="notes">
+                    <p>So, there is a lot of relaying going on here which will mean a lot of boiler plate.  You have to:
+                    <ol>
+                        <li>Send a command from client to the server.  </li>
+                        <li>Forward that request onto the program controller and possibly the model</li>
+                        <li>The model will have to respond to the input and update as necessary</li>
+                        <li>There must be some mechanism for aggregating the data or you will fragment the service (at the controller level?)</li>
+                    </ol>
+                    </p>
+                    <p>Once the controller has updated the model, we will ultimately want to communicate that updated data
+                    back to the client via the server.  However, the client will have to tell the server that it wants the
+                    data.  Once this is done, the data must be translated to something that the client can interpret
+                    somewhere - either in the service (my recommendation so the server doesn't have to keep a record of it) or
+                    possibly at the controller level.</p>
+                </aside>
+            </section>
+            <section>
+                <h2>And what about the data?</h2>
+                <div style="width:50%;float:left" class="fragment fade-in"><pre><code data-trim data-noescape>
+                    {
+                      "string": "This is data.",
+                      "date": "10/30/2017",
+                      "time": "4:09 PM",
+                      "output cluster": {
+                        "Y": [
+                          0,
+                          0.094108313318514311,
+                          0.1873813145857246,
+                          0.27899110603922922,
+                          0.36812455268467792,
+                          0.45399049973954675,
+                          0.53582679497899655,
+                          0.61290705365297649,
+                          0.68454710592868862,
+                          0.75011106963045948,
+                          0.80901699437494734,
+                          0.86074202700394353,
+                          0.90482705246601947,
+                          0.94088076895422534,
+                          0.96858316112863108,
+                          0.98768834059513766,
+                          0.99802672842827156,
+                          0.99950656036573149,
+                          0.99211470131447788,
+                          0.97591676193874732,
+                          0.95105651629515364,
+                          0.91775462568398114,
+                          ...
+                          ]
+                      }
+                    }
+                </code></pre>
+                </div>
+                <div style="width:50%;float:right">
+                    <div>
+                    <ul>
+                        <li class="fragment fade-in">Format data to make it (easily) consumable</li>
+                        <li class="fragment fade-in">Utilize client tools to retrieve data automatically</li>
+                        <li class="fragment fade-in">Watch out for cross-origin request errors</li>
+                    </ul>
+                    </div>
+                    <div class="fragment fade-in"><img src="img/cors.png" height=300px alt=""></div>
+                </div>
+                <aside class="notes">
+                    <p>Demonstrate the return of using the application GetWaveformData:</p>
+                    <ul>
+                        <li>Show how the request can be made using the url as before </li>
+                        <li>Here's the question - is there a flaw in this?  A: requires direct interaction</li>
+                        <li>So, now we write a script to grab the data and put it somewhere - the button allows us to grab data
+                        but now we still have the same problem - it's on the page but we need to grab data with no user interaction...</li>
+                        <li>Does anyone see any possible hiccups here? (hint: can't be more than one hop away from the server page)</li>
+                        <li>AJAX calls will trigger a cross origin error errors if the client is not in the same domain as the</li>
+                    </ul>
+                    </aside>
+            </section>
+            <section>
+                <h1>That all seems kinda clunky...</h1>
+                <div class="fragment fade-in"><p style="text-align:left">Let's add the following bit of code:</p>
+                    <pre ><code data-trim data-noescape>setInterval(getData, 1000)</code></pre></div>
+                <aside class="notes">
+                    <p>Won't get into the grit of details regarding how to build views. But, you will likely want to
+                        style your application, determine how it renders and provide widgets for actually displaying data.</p>
+                    <p>So, we have our page and we can hit a button to go get the data.  But that is going to cost a lot
+                        of money for the personel if we need to always have someone hitting that button.  So, this is no
+                        what we want to do.  Does anyone know how we might go about doing this in the web world?</p>
+                    <p>setIntereval() demonstration</p>
+                </aside>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h1>So now what?</h1>
+                <!--<div style="float:left;width:50%">
+                    <h3>Some questions</h3>-->
+                <ul>
+                    <li>How are we going to synchronize the client and server?</li>
+                    <li>Should the app cover multiple views?</li>
+                    <li>Are there bandwidth considerations for structuring data or acquisition rates?</li>
+                    <li>How do we maintain a consistent style across the UI?</li>
+                </ul>
+                <!--</div> -->
+                <!--<div style="float:right;width:50%">
+                    <h3>Some tools?</h3>
+                    <ul>
+                        <li>Styling
+                        <ul>
+                            <li>bootstrap</li>
+                            <li>Material Design</li>
+                        </ul></li>
+                        <li>jQuery - a library</li>
+                        <li>Frameworks:
+                            <ul>
+                                <li>React</li>
+                                <li>AngularJS</li>
+                                <li>Ember</li>
+                            </ul>
+                        </li>
+                        <li>Elm - a whole other language??!!</li>
+                    </ul>
+
+                </div>-->
+                <aside class="notes">
+                    <p>Well, now we have the fundamentals, so where do we go from here.  For many of us, applications
+                        are considerably more complex - they will require more than a single button and likely have more
+                        complex views for the data.  As such, we will have to consider <i>how</i> to structure our application
+                        with regards to both the look as well as the operation.  The process is considerably more
+                        complex than in LabVIEW.  Building views can take a lot of code on browser based code to support
+                        the operation.
+                    </p>
+                    <p>In most LV applications, client and server are often one in the same or the way data is handled
+                        makes the process of maintaining synchronization fairly straightforward.  Nevertheless, if you have
+                        done something like this in pure LabVIEW, then you know <i>what</i> to do; it's just the mechanics
+                        of <i>how</i> that you will have to learn.
+                    </p>
+                    <p>With respect to multiple views, this is akin to tabs in LabVIEW.  However, using multiple
+                        browser tabs for developing an application may cause synchronization issues and will likely
+                        increase bandwidth usage due to polling across multiple applications.  This is bad.
+                    </p>
+                    <p>Along those lines, due to the fact that all data is returned in text form we will see an increase
+                        in bandwidth usage.  Depending on how large the data packets are, the developer may want to
+                        consider how they use that bandwidth.  Can they defer some data updates depending on the view
+                        that they are in? (example: exscalabar)
+                    </p>
+                </aside>
+            </section>
+            <section>
+                <img src="img/tools.png" >
+                <aside class="notes">
+                    <p>
+                        There is not enough time to go over how to build a fully functional client side application.
+                        But it is important to consider that beyond the vanilla - html, js and css - there are a lot
+                        of tools and frameworks out there to aid you.  You do not have to reinvent the wheel.  In fact,
+                        that would be a tremendous waste of time that would produce a product that was deficient wrt
+                        what is already out there.
+                    </p>
+                    <p>
+                        Is anyone familiar with any of these tools that are depicted up here? Anyone heard of jQuery?
+                        Probably one of the most popular tools for those new to the whole web development thing.  This
+                        provides utilities for manipulating the DOM and css; provides HTML event methods; simplifies
+                        AJAX calls; and provides a whole host of other utilities.  You would recognize calls to the
+                        jQuery library by the ubiquitous $.
+                    </p>
+                    <p>
+                        But, jQuery is not a firm foundation for an application architecture.  For this, you might want
+                        to take advantage of some of the awesome frameworks out there such as AngularJS, Backbone, React,
+                        Ember, etc, etc (there is a lot of churn out there).  All of these will help you build single page
+                        applications that deal with issues laid out in the previous slide.  I have used AngularJS - it
+                        is awesome but difficult to get a foothold in.  The transition from v1 to v2 broke the framework
+                        (I can no longer say that I am familiar with AngularJS).
+                    </p>
+                    <p>
+                        In addition to these frameworks, we have Elm.  It is a functional language that transpiles to
+                        javascript.  And unlike Angular and React, does not require a server to run.  In addition, it has
+                        the whole MVC architecture built into its language.  And, it is statically typed so you
+                        won't get frustrating errors like this (show throwError button).
+                    </p>
+                    <p>
+                        You also have tools to help with styling such as Bootstrap (which v4 is finally in beta) and
+                        Google's Material Design.  These provide widgets to create a consistent UI experience.
+                    </p>
+                    <p>
+                        Finally, you have development tools such as Gulp to aid in the actual development of your
+                        application (remember that javascript is interpreted by the browser and is generally not run
+                        anywhere else) so these tools will provide packages for liniting, concatenating, minifying
+                        etc.
+                    </p>
+                </aside>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h1>Now, why would I want to do this?</h1>
+                <aside class="notes">
+                    <p>
+                        On the server side, you will have to provide some (a considerable amount?) of support code to
+                        communicate with the server and maintain state between the client and server sides.  In addition,
+                        you are going to have to step outside of your LV box and get comfortable with new progamming
+                        paradigms.  Given the time commitment for taking on this, this is not for everyone, but if you
+                        have the time, maybe you should consider it for these reasons...
+                    </p>
+                </aside>
+            </section>
+            <section>
+                <h2>Your application will be more portable</h2>
+                <aside class="notes">
+                    <p>
+                        Anywhere you have a browser you can have this application - I can give you the script which
+                        will be less than a MB, or you can access it via the server.
+                    </p>
+
+                </aside>
+            </section>
+            <section>
+                <h2>You can utilize tools to develop a less LabVIEW-y UI</h2>
+            </section>
+            <section>
+                <h2>You are stepping outside of your comfort zone</h2>
+            </section>
+        </section>
+        <section>
+            <div style="width:50%;float:left">
+                <h3>Thanks for listening!</h3>
+                <br>
+                <br>
+                <p>Matt Richardson</p>
+                <p>cirrusio@protonmail.com</p>
+                <p>https://github.com/lo-co</p>
+            </div>
+            <div style="width:50%;float:right">
+                <img src="img/climb.jpg" style="border-width:0px; height:300px;" alt="">
+                <img src="img/fall.jpg" style="border-width:0px; height:300px;" alt="">
+            </div>
+        </section>
+    </div>
+</div>
+<div class="cld" style="display:block; position:absolute;z-index:20;font-size:20px;bottom:16px;text-align:center;margin-right:-50%;left:50%; transform:translate(-50%,0%);">
+    Matt Richardson, MSR Consulting LLC, CLD Summit October 2017
+</div>
+
+
+<style>
+    .share-reveal a {display: inline-block; height:34px;line-height:32px;padding:0 10px; color:#fff;font-family:Helvetica, san-serif; text-decoration: none; font-weight:bold;font-size:12px;vertical-align: top; text-transform:uppercase; box-sizing:border-box;}
+    .cld img{border-width:0px;
+        font-size:20px;
+    }
+</style>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+<script >
+    Reveal.initialize({
+        progress:true,
+        width:"100%",
+        height:"100%",
+        margin:0.1,
+        minScale:0.2,
+        maxScale:1,
+        dependencies:[
+
+
+            // {src: '../reveal/lib/js/classList.js', condition: function(){return !document.body.classList;}},
+            {src: 'plugin/markdown/marked.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
+            {src: 'plugin/markdown/markdown.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
+            {src: 'plugin/math/math.js', async: true},
+            {src: 'plugin/notes/notes.js', async:true}
+
+
+        ]
+    });
+</script>
+</body>
+</html>

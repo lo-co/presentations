@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/serif.css" id ="theme">
+    <style>
+        table {table-layout: fixed;  }
+        table td:nth-child(1) {border:none; word-wrap:break-word;width: 250px;}
+        table td:nth-child(2){border:none; vertical-align:top}
+
+        .green {color:green}
+    </style>
+</head>
+<body>
+<div class = "reveal">
+    <div class="slides">
+        <section>
+          <h1>Prelude: Let's take a (guilt) trip...</h1>
+        </section>
+        <section>
+            <section>
+                <h1>Presentation undefined at undefined...</h1>
+                <aside class="notes">
+                  <ul>
+                    <li>How many of you get it??  IF not, you may get it by the end of the presentation</li>
+
+                  </ul>
+                </aside>
+            </section>
+            <section>
+              <section>
+                <h1>A brief history of time</h1>
+                <h2 class = "fragment fade-in"><span class="fragment fade-out">(CLD Summit time, that is...)</span></h2>
+                <h2 class="fragment fade-in">:an evolution of awesome</h3>
+              </section>
+              <section>
+                <h2>The year might have been 2013...</h2>
+                <aside class="notes">
+                  Young, nervous and a little naive...a baby if you will.
+                  Talked about OOP - you should consider using.  Learned from Nancy that I might not actually be doing OOP?
+                </aside>
+              </section>
+               <section>
+                <h2>Moving on to 2014...</h2>
+                <aside class="notes">
+                  I was smarter!  Bolder! Everyone should consider web services!  Super easy and you can get a front end developer cheap!
+                </aside>
+               </section>
+              <section>
+                <h2>Skip ahead to last year...</h2>
+                <aside class="notes">
+                  Talked about large developing a large application, hopes dashed, my naivete exposed...
+                  I was a little battered (and my pockets lightened a bit) but also a getting wiser
+                </aside>
+              </section>
+            </section>
+        </section>
+    </div>
+</div>
+<div class="cld" style="display:block; position:absolute;z-index:20;font-size:20px;bottom:16px;text-align:center;margin-right:-50%;left:50%; transform:translate(-50%,0%);">
+    Matt Richardson, MSR Consulting LLC, ALARM May 2017
+</div>
+
+
+<style>
+    .share-reveal a {display: inline-block; height:34px;line-height:32px;padding:0 10px; color:#fff;font-family:Helvetica, san-serif; text-decoration: none; font-weight:bold;font-size:12px;vertical-align: top; text-transform:uppercase; box-sizing:border-box;}
+    .cld img{border-width:0px;
+        font-size:20px;
+    }
+</style>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+<script >
+    Reveal.initialize({
+        progress:true,
+        width:960,
+        height:700,
+        margin:0.1,
+        minScale:0.2,
+        maxScale:1,
+        dependencies:[
+
+
+            // {src: '../reveal/lib/js/classList.js', condition: function(){return !document.body.classList;}},
+            {src: 'plugin/markdown/marked.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
+            {src: 'plugin/markdown/markdown.js', condition: function(){return !!document.querySelector('[data-markdown]');}},
+            {src: 'plugin/math/math.js', async: true},
+            {src: 'plugin/notes/notes.js', async:true}
+
+
+        ]
+    });
+</script>
+</body>
+</html>
